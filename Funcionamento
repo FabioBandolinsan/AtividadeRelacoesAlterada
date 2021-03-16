@@ -1,0 +1,7 @@
+package atividadeRelacoesAlterada;
+
+public interface Funcionamento {
+	public boolean ligarDesligar();
+	public int acelerar();
+	public int frear();
+}
