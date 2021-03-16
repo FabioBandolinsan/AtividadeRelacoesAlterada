@@ -1,0 +1,30 @@
+package atividadeRelacoesAlterada;
+
+public class Motor {
+
+	private float potencia;
+
+	public Motor(float potencia) {
+		setPotencia(potencia);
+	}
+	
+	public float getPotencia() {
+		return potencia;
+	}
+
+	public void setPotencia(float potencia) {
+		if(potencia>0)
+			this.potencia = potencia;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Motor [potencia=");
+		builder.append(potencia);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+}
