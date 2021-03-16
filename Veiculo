@@ -1,0 +1,21 @@
+package atividadeRelacoesAlterada;
+
+public class Veiculo {
+
+	private final String placa="OOO-0000";
+	
+	public String getPlaca() {
+		return placa;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Veiculo [placa=");
+		builder.append(placa);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+}
