@@ -1,0 +1,17 @@
+package atividadeRelacoesAlterada;
+
+public enum Passageiros {
+
+	MOTORISTA(1),
+	PASSAGEIROFRENTE(2),
+	PASSAGEIROTRAS(3);
+	
+	private final int opcao;
+	
+	Passageiros(int valoropcao){
+		opcao = valoropcao;
+	}
+	public int getopcao() {
+		return opcao;
+	}
+}
