@@ -1,0 +1,30 @@
+package atividadeRelacoesAlterada;
+
+public class PortaMalas {
+
+	private float capacidade;
+	
+	public PortaMalas(float capacidade) {
+		setCapacidade(capacidade);
+	}
+
+	public float getCapacidade() {
+		return capacidade;
+	}
+
+	public void setCapacidade(float capacidade) {
+		if(capacidade>0)
+			this.capacidade = capacidade;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PortaMalas [capacidade=");
+		builder.append(capacidade);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+}
