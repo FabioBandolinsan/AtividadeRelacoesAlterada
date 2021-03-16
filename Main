@@ -1,0 +1,181 @@
+package atividadeRelacoesAlterada;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FilterOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Iterator;
+import java.util.Date;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		int op;
+		//Generalização
+		Veiculo v = new Veiculo();
+		System.out.println(v);
+		List<Carro> lista= new ArrayList<Carro>();
+		Carro c = new Carro("OOO-0000","Nissan");
+		
+		System.out.println(c);
+		
+		//Dependencia
+		Combustivel com = new Combustivel();
+		com.setTipo("Gasolina comum");
+		com.setQuantidade(10);
+		
+		c.ligar(com);
+		
+		//Agregação
+		Motor m1 = new Motor(1);
+		Motor m2 = new Motor(2);
+		Motor m3 = new Motor(3);
+		
+		c.addMotor(m1);
+		c.addMotor(m2);
+		c.addMotor(m3);
+		
+		System.out.println(c);
+		
+		//Composição
+		c.addPortaMalas(1);
+		
+		System.out.println(c);
+		
+		//Enum
+		Passageiros p = Passageiros.MOTORISTA;
+		switch(p) {
+		case MOTORISTA: System.out.println("Motorista");
+		break;
+		case PASSAGEIROFRENTE: System.out.println("Passageiro da frente");
+		break;
+		case PASSAGEIROTRAS:System.out.println("Passageiro de trás");
+		break;
+		default: System.out.println("Error");
+		break;
+		}
+		System.out.println(p.getopcao());
+		
+		//Persistência
+		System.out.println("Escolha o arquivo que deseja utilizar: ");
+		System.out.println("1-CSV");
+		System.out.println("2-XML");
+		System.out.println("3-JSON");
+		op=1;
+		if(op==1) {
+		//CSV
+		Scanner ler =new Scanner(System.in);
+		FileWriter arq = new  FileWriter("carro.csv");
+		PrintWriter gravarArq= new PrintWriter(arq);
+		
+		for(Carro carro: lista) {
+			gravarArq.printf("%d;%s\n",carro.getMarca(),carro.getPlaca());
+		}
+		
+		arq.close();
+		try {
+			FileReader arq1=new FileReader("carro.csv");
+			BufferedReader lerArq= new BufferedReader(arq1);
+			String linha = lerArq.readLine();
+			lista = new  ArrayList<Carro>();
+			while(linha != null) {
+				String[] leitura = linha.split(";");
+				c= new Carro();
+				c.setMarca(leitura[0]);
+				lista.add(c);
+				linha=lerArq.readLine();
+			}
+			arq.close();
+		}catch(IOException e) {
+			System.out.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		for(Carro carro : lista) {
+			System.out.println(carro);
+		}
+		ler.close();
+		}else
+		if(op==2) {
+		//XML
+			lista.add(c);
+			Element config = new  Element("Agenda");
+			Document documento = new Document(config);
+			org.w3c.dom.Element titulo = new Element("título");
+			titulo.setText("Agenda");
+			org.w3c.dom.Element data = new Element("data");
+			data.setText(Data.Util.DataHoraForStringPadraoH(new Date()));
+			config.addContent(titulo);
+			config.addContent(data);
+			
+			for(int x=0; x<lista.size(); x++) {
+				Element carro = new Element("carro");
+				carro.setAttribute("Marca", String.valueOf(lista.get(x).getMarca()));
+				carro.addContent(Marca);
+				config.addContent(carro);
+			}
+			XMLOutputter xout = new XMLOutputter();
+			try {
+				BufferedWriter arquivo = new BufferedWriter
+						(newOutputStreamWriter(newFileOutputStream("xml/agenda.xml")."UTF-8"));
+				xout.output(documento, arquivo);
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+			list = new  ArrayList<Carro>();
+			javax.swing.text.Document doc =null;
+			SAXBuilder builder = new SAXBuilder();
+			try {
+				doc=builder.build("xml/agenda.xml");
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			config= doc.getRootElement();
+			List ls = config.getChildren("carro");
+			for(Iterator iter = ls.iterator();inter.hasNext();) {
+				Element element= (Element) iter.next();
+				c= new Carro();
+				c.setMarca(element.getChildText("marca"));
+				lista.add(c);
+			}
+			for(Carro carro: lista) {
+				System.out.println(carro);
+				System.out.println("--------------");
+			}
+		}else
+			if(op==3) {
+				//JSON
+				lista.add(c);
+				GsonBuilder builder = new GsonBuilder();
+				Gson gson= builder.create();
+				FileWrtiter writer = new FileWriter("json/carro.json");
+				writer.write(gson.toJson(lista));
+				writer.close();
+				
+				System.out.println(gson.toJson(lista));
+				builder = new GsonBuilder();
+				gson=builder.create();
+				BufferedReader bufferedReader = new BufferedReader(new FileReader("json/carro.json"));
+				Type listType = new TypeToken<ArrayList<Carro>>() {}.getType();
+				lista = new ArrayList<Carro>();
+				lista = new Gson().fromJson(bufferedReader, listType);
+				for(Iterator iterator = lista.iterator();iterator.hasNext();) {
+					Carro especialidade= (Carro)iterator.next();
+					System.out.println(especialidade.toString());
+				}
+				}else
+					System.out.println("Esse arquivo não está disponível ou não existe");
+			}
+		
+	}
+
+
