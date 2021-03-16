@@ -1,0 +1,95 @@
+package atividadeRelacoesAlterada;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Carro extends Veiculo implements Funcionamento {
+
+	private String marca;
+	public boolean chave=false;
+	public int velocidade=0;
+
+	public Carro() {
+		super();
+	}
+	
+	public Carro(String placa) {
+		super();
+	}
+	
+	public Carro(String placa, String marca) {
+		super();
+		setMarca(marca);
+	}
+	
+	List<Motor> lmotor = new ArrayList<Motor>();
+	List<PortaMalas> lportamalas = new ArrayList<PortaMalas>();
+	
+	public void addMotor(Motor motor) {
+		lmotor.add(motor);
+	}
+	
+	public boolean addPortaMalas(float capacidade) {
+		PortaMalas pm = new PortaMalas(capacidade);
+		return lportamalas.add(pm);
+	}
+	
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		if(marca.length()>0)
+			this.marca = marca;
+	}
+
+	public void ligar (Combustivel combustivel) {
+		if(combustivel.getQuantidade()>0) {
+			System.out.println(combustivel.toString());
+			chave = true;
+		}
+	}
+
+	public void desligar (Combustivel combustivel) {
+			System.out.println(combustivel.toString());
+			chave = false;
+	}
+	
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Carro [marca=");
+		builder.append(marca);
+		builder.append(", toString()=");
+		builder.append(super.toString());
+		builder.append("]");
+		for(Motor motor:lmotor) {
+			builder.append(motor.toString());
+		}
+		for(PortaMalas portamalas:lportamalas) {
+			builder.append(portamalas.toString());
+		}
+		return builder.toString();
+	}
+
+	@Override
+	public boolean ligarDesligar() {
+		if(chave=true)
+		return false;
+		else
+			return true;
+			}
+
+	@Override
+	public int acelerar() {
+		return velocidade++;
+		
+	}
+
+	@Override
+	public int frear() {
+		return velocidade--;
+	}
+	
+	
+}
